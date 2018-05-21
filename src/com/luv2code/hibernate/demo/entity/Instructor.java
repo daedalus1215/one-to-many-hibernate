@@ -2,7 +2,6 @@ package com.luv2code.hibernate.demo.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 
@@ -40,6 +38,9 @@ public class Instructor {
 	@JoinColumn(name="instructor_detail_id")
 	private InstructorDetail instructorDetail;
 
+	
+	
+	
 	
 	// MappedBy tells Hibernate - 
 	// 1. Look at the instructor property in the Course class
@@ -123,6 +124,19 @@ public class Instructor {
 		this.courses = courses;
 	}
 
+	
+	// add convenience methods for bi-directional relationship
+	public void addCourse(Course tempCourse) {
+		if (this.courses == null) {
+			courses = new ArrayList<>();
+		}
+		
+		courses.add(tempCourse);
+		
+		tempCourse.setInstructor(this);
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Instructor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email

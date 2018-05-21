@@ -11,28 +11,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
+
+
 @Entity
 @Table(name="course")
 public class Course {
 	
 	// define our fields
-	
-	
-	
 	// define constructors
-	
-	
 	// define getter setters
-	
-	
-	// define tostring
-	
-	
+	// define tostring	
 	// annotate fields
 	
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
+	
+	@Column(name="title")
 	private String title;
+	
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="instructor_id")
 	private Instructor instructor;
 	
 	
@@ -74,5 +74,11 @@ public class Course {
 
 	public void setInstructor(Instructor instructor) {
 		this.instructor = instructor;
-	}		
+	}
+
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", title=" + title + "]";
+	}	
 }

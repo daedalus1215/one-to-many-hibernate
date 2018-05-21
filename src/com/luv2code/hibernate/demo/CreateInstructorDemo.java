@@ -4,17 +4,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
 
 
-public class UniDeleteDemo {
+public class CreateInstructorDemo {
 
 	public static void main(String[] args) {
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
+				.addAnnotatedClass(Course.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -24,27 +26,26 @@ public class UniDeleteDemo {
 		try {
 			session.beginTransaction();
 
+			InstructorDetail instructorDetail = new InstructorDetail("youtube channel.com", "video gaming");
+			
 			
 			// Get Instructor via primary key
-			Instructor tempInstructor = session.get(Instructor.class, 2);
-			
-			// delete instructor
-			System.out.println("Found the instructor " + tempInstructor);
+			Instructor tempInstructor = new Instructor("Susan", "Public", "spublic@yahoo");
 			
 			
-			if (tempInstructor != null) {
-				// will ALSO delete the associated details entity because of the CascadeType.ALL
-				System.out.println("\nDeleteing: " + tempInstructor);
-				session.delete(tempInstructor);
-			}
+			tempInstructor.setInstructorDetail(instructorDetail);
 			
 			
+			
+			session.save(tempInstructor);			
 			// commit
 			session.getTransaction().commit();
 			
 		} catch(Exception exception) {
 			exception.printStackTrace();
-		} finally {
+		} finally {			
+			session.close();
+			
 			factory.close();
 		}
 	}
