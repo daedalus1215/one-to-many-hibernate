@@ -9,7 +9,7 @@ import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
 
 
-public class CreateCoursesDemo {
+public class GetInstructorCoursesDemo {
 
 	public static void main(String[] args) {
 		SessionFactory factory = new Configuration()
@@ -30,17 +30,11 @@ public class CreateCoursesDemo {
 			int theId = 8;
 			Instructor theInstructor = session.get(Instructor.class, theId);
 			
-			// create some courses
-			Course tempCourse  = new Course("Air Guitar - The Ultimate Guide");
-			Course tempCourse1 = new Course("The Pinball Masterclass");							
-
-			// add courses to instructor
-			theInstructor.addCourse(tempCourse1);
-			theInstructor.addCourse(tempCourse);
+			System.out.println("Instructor: " + theInstructor);
 			
-			// save the courses
-			session.save(tempCourse1);
-			session.save(tempCourse);
+			
+			// get the course for the instructor
+			System.out.println("Courses: " + theInstructor.getCourses());
 			
 			// commit
 			session.getTransaction().commit();
